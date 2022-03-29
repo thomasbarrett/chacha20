@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS = -std=c11 -Wall -pedantic -Iinclude -Wall -O3 $(MODULES_INCLUDE)
+CFLAGS = -std=c11 -Wall -pedantic -Iinclude -Wall -O3
 SRC_FILES = $(wildcard src/*.c)  $(wildcard src/*/*.c)
 FILES = $(basename $(SRC_FILES:src/%=%))
 OBJ_FILES = $(addprefix obj/,$(FILES:=.o))
@@ -12,14 +12,18 @@ MODULES = git@github.com:thomasbarrett/uint.git@v0.1.0
 MODULES_REPOSITORY = $(addprefix git@, $(foreach dep, $(MODULES), $(word 2, $(subst @, ,$(dep)))))
 MODULES_VERSION = $(foreach dep, $(MODULES), $(word 3, $(subst @, ,$(dep))))
 MODULES_MAJOR_VERSION = $(foreach dep, $(MODULES_VERSION), $(word 1, $(subst ., ,$(dep))))
-MODULES_PREFIX = ~/.modules/
+MODULES_PREFIX = /tmp/.modules/
 MODULES_ROOT = $(foreach dep, $(MODULES_REPOSITORY), $(word 1, $(subst ., ,$(word 2, $(subst :, ,$(dep))))))
 MODULES_PATH = $(addprefix $(MODULES_PREFIX), $(join $(MODULES_ROOT), $(addprefix /,$(MODULES_MAJOR_VERSION))))
 MODULES_OBJ = $(foreach p, $(MODULES_PATH), $(prefix $p, $(shell $(MAKE) object-files -C $p 2>/dev/null)))
-MODULES_INCLUDE = $(foreach p, $(MODULES_PATH), $(p:=/include))
+MODULES_INCLUDE = $(foreach p, $(MODULES_PATH), -I$(p:=/include))
 
 .PHONY: all 
-all: $(TEST_FILES)
+all: build-deps $(TEST_FILES)
+
+.PHONY: includes
+includes: 
+	@echo $(MODULES_INCLUDE)
 
 .PHONY: clean
 clean:
@@ -31,11 +35,11 @@ build: $(TEST_FILES) $(OBJ_FILES)
 
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) -c $(CFLAGS) $^ -o $@
+	@$(CC) -c $(CFLAGS) $(MODULES_INCLUDE) $^ -o $@
 
 bin/tests/%: tests/%.c $(OBJ_FILES) $(MODULES_OBJ)
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) $(MODULES_INCLUDE) $^ -o $@
 
 # suppress error for missing test file
 bin/tests/%:
