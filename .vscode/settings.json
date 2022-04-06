@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "uint.h": "c",
-        "poly1305.h": "c"
-    }
-}
