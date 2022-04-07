@@ -47,7 +47,7 @@ void poly1305_tag(const uint8_t key[32], buffer_t m, uint8_t tag[16]) {
     poly1305_clamp(r_bytes);
     const uint8_t *s_bytes = key + 16;
 
-    uint32_t r[5] = {0};
+    uint32_t r[10] = {0};
     uint32_t s[5] = {0};
     le_bytes_to_num(r_bytes, 4, r);
     le_bytes_to_num(s_bytes, 4, s);
@@ -56,7 +56,7 @@ void poly1305_tag(const uint8_t key[32], buffer_t m, uint8_t tag[16]) {
         0xfffffffb, 0xffffffff, 0xffffffff, 0xffffffff, 0x00000003
     };
 
-    uint32_t a[5] = {0};
+    uint32_t a[10] = {0};
 
     gfp_t gfp = gfp_init(p, 5);
 
