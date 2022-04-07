@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS = -std=c11 -Wall -pedantic -Iinclude -Wall -O3
+CFLAGS = -std=c11 -Wall -pedantic -Iinclude -Wall -g -fsanitize=address
 SRC_FILES = $(wildcard src/*.c)  $(wildcard src/*/*.c)
 FILES = $(basename $(SRC_FILES:src/%=%))
 OBJ_FILES = $(addprefix obj/,$(FILES:=.o))

@@ -9,7 +9,8 @@ generates a 16-byte "tag" (signature) for the message. The algorithm itself is
 actually pretty simple. Note that all operations should be performed using
 a constant time arithmetic libary to avoid leaking information about the key.
 
-The specification for this MAC can be found [here](https://datatracker.ietf.org/doc/html/rfc8439#section-2.5).
+The specification for this MAC can be found 
+[here](https://datatracker.ietf.org/doc/html/rfc8439#section-2.5).
 ```
 r = key[0:16] & 0x0ffffffc0ffffffc0ffffffc0fffffff
 s = key[16:32]
