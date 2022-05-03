@@ -12,6 +12,4 @@
  */
 void poly1305_tag(const uint8_t key[32], buffer_t m, uint8_t tag[16]);
 
-void chacha20_poly1305(const uint8_t key[32], uint8_t nonce[12], buffer_t m, buffer_t aad);
-
 #endif /* POLY1305_H */

@@ -60,7 +60,6 @@ void poly1305_tag(const uint8_t key[32], buffer_t m, uint8_t tag[16]) {
 
     gfp_t gfp = gfp_init(p, 5);
 
-    size_t n_blocks = 0;
     while (m.length > 0) {
         uint8_t n_bytes[20] = {0};
         memcpy(n_bytes, m.data, min(m.length, 16));
