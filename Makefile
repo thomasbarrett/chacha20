@@ -73,6 +73,10 @@ build-deps: install-deps
 		$(MAKE) -C $${M_PATH} &> /dev/null; \
 	)
 
+.PHONY: object-files
+object-files:
+	@echo $(OBJ_FILES)
+
 .PHONY: lint
 lint:
 	@for file in $(SRC_FILES); do \
